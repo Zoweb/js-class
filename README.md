@@ -10,7 +10,7 @@ mySourceClass.js:
 namespace My.Namespace {
   import My.Other.Class;
   
-  class {
+  class MyClass {
     // ...
   }
 }
