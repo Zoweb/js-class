@@ -1,5 +1,5 @@
 {
-  "name": "js-class",
+  "name": "js-class-namespace",
   "version": "0.0.1",
   "description": "Build tool to allow classes to use namespaces and imports",
   "main": "js-class.js",
