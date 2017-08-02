@@ -1,16 +1,59 @@
-# js-class
-Build tool to allow classes to use namespaces and imports
+# JS Class
 
-Usage:
-js-class --source mySourceClass.js --output myOutputFile.js
+This tool allows you to transpile namespace'd JavaScript files into native JS.
 
-mySourceClass.js:
+## Installing
+After making sure [NodeJS](https://nodejs.org "NodeJS") is installed, run `$ npm install -g js-class-namespace`.
 
-```
-namespace My.Namespace {
-  import My.Other.Class;
-  
-  class MyClass {
-    // ...
-  }
-}
+## Building Classes
+Run `$ js-class --source MyClass.class.js --output MyClass.js`
+
+## Using Classes
+Once built, classes are imported into a website using `include.js`:
+
+    <script src="https://cdn.rawgit.com/Zoweb/js-class/ba16dfe3/browser/include.js"></script>
+    <script>
+    include("My.Library.Extensions");
+
+	includes.onload = () => {
+		console.log([1,2,3,4,5].randomElement());
+	};
+	</script>
+
+## Writing Classes
+The class format is similar to C# and Java:
+
+    // Define the namespace
+    namespace My.Namespace {
+	    // Import other classes
+	    import Another.Namespace.Class;
+	    import Or.Library;
+
+	    // Define class
+	    class MyClass {
+		    // ... like JS classes
+		    constructor() {
+			    return "foo";
+		    }
+	    }
+    }
+
+Classes can also become extensions for other classes:
+
+    namespace My.Library {
+	    class Extensions {
+		    static _EXTENSION() {
+			    // Here we can mark static members as extensions:
+			    Extensions.randomElement.markAsExtension(Array);
+			    // would mean that we can do [].randomElement();
+		    }
+
+			static randomElement() {
+				// this is defined, as we are in an extension
+				return this[Math.floor(Math.random() * this.length)];
+			}
+	    }
+    }
+
+## License
+JS-Class is licensed under the MIT License. See `LICENSE` for more info.
