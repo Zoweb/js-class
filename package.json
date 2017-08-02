@@ -1,6 +1,6 @@
 {
   "name": "js-class-namespace",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Build tool to allow classes to use namespaces and imports",
   "main": "index.js",
   "repository": {
