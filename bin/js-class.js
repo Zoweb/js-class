@@ -31,6 +31,6 @@ module.exports = () => {
         cli.debug("Saving code...");
         readFile.saveFile(options.output, ugly.code);
 
-        cli.info("Compvared. View the transpiled class at " + options.output);
+        cli.info("Completed. View the transpiled class at " + options.output);
     })().catch(function(err) {cli.fatal(err.stack)});
 };
