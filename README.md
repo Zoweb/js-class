@@ -26,7 +26,7 @@ fs.writeFileSync("MyClass.js", transpiled);
 ## Using Classes
 Once built, classes are imported into a website using `include.js`:
 
-```js
+```html
 <script src="https://cdn.rawgit.com/Zoweb/js-class/ba16dfe3/browser/include.js"></script>
 <script>
 include("My.Library.Extensions");
@@ -74,6 +74,27 @@ namespace My.Library {
         }
     }
 }
+```
+
+## Importing Classes - *Important Information*
+Class namespaces **MUST** be their file structure from the file that is including the class, preceded by a src/.
+
+For example, this would NOT WORK: A class with namespace `My.Namespace` in the directory `./lib/A/Namespace/`.
+It MUST be in the directory `./src/My/Namespace/`. The file including it MUST be in the directory `./`.
+
+See the below example folder structure, which is correct:
+
+```
+|- index.html
+|- js/
+ \- import.js
+ |- code.js
+ |- src/
+  \- My/
+   \- Library/
+   |\- Extensions.js
+   |- Namespace/
+    \- MyClass.js
 ```
 
 ## License
