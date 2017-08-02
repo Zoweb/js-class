@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 /**
  * Copyright (c) 2017, zoweb
  *
@@ -8,21 +6,9 @@
  */
 
 const esprima = require("esprima");
-const cli = require("cli");
-const uglify = require("uglify-es");
 
 const readFile = require("./lib/read-file");
 const generator = require("./lib/generator");
-
-const options = cli.parse({
-    source: ["s", "Source class file path", "file", false],
-    output: ["o", "Output file path", "file", false]
-});
-
-if (options.source === false) cli.fatal("Invalid or no source file.");
-if (options.output === false) cli.fatal("Invalid or no output file.");
-
-cli.info("Attempting to parse " + options.source);
 
 function throwUnexpectedError(token) {
     throw new TypeError(`Unexpected ${token.type.toLowerCase()} '${token.value}' at ${token.loc.start.line}:${token.loc.start.column}`);
@@ -74,9 +60,9 @@ if (!String.prototype.padEnd) {
     };
 }
 
-generator(function*(cont) {
-    cli.debug("Loading file...");
-    let source = yield readFile(options.source, cli.progress).then(cont());
+let transpile = generator(function*(source, cont) {
+    if (typeof cont !== "function") throw new TypeError("Invalid argument count");
+
     let sourceTokens = esprima.tokenize(source, {
         loc: true
     });
@@ -100,8 +86,6 @@ generator(function*(cont) {
         type: "Punctuator",
         value: "{"
     });
-
-    cli.debug("Set namespace to `" + namespace + "`.");
 
     // remove "{"
     sourceTokens.shift();
@@ -131,9 +115,6 @@ generator(function*(cont) {
         workingToken = sourceTokens.shift();
     }
 
-    cli.debug("Imports are: `" + imports.join("`, `") + "`");
-
-    cli.debug("Loading header...");
     let header = yield readFile("./data/header.js", cli.progress).then(cont());
     let headerTokens = esprima.tokenize(header);
 
@@ -171,7 +152,6 @@ generator(function*(cont) {
         value: "class"
     });
 
-    cli.debug("Adding header...");
     let everything = headerTokens.concat(sourceTokens);
 
     let output = [];
@@ -183,32 +163,7 @@ generator(function*(cont) {
         output.push(currentOut);
     });
 
-    let outputStr = output.join("");
+    return output.join("");
+});
 
-    cli.debug("Uglifying code...");
-    let ugly = uglify.minify(outputStr);
-
-    if (ugly.error) throw ugly.error;
-
-    cli.debug("Saving code...");
-    readFile.saveFile(options.output, ugly.code);
-})().catch(err => cli.fatal(err.stack));
-
-
-
-/*readFile(options.source, (...args) => cli.progress(...args)).then(fileContents => {
-    cli.debug("File:\n" + fileContents);
-
-    cli.debug("Loading header...");
-
-    cli.debug("Editing tokens...");
-    let tokens = esprima.tokenize(fileContents, {
-        comments: true
-    });
-
-    cli.debug("Re-making file...");
-
-    console.log(JSON.stringify(tokens, null, 4));
-}).catch(err => {
-    cli.fatal(err.stack);
-});*/
+module.exports.transpile = transpile;
