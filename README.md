@@ -6,7 +6,20 @@ This tool allows you to transpile namespace'd JavaScript files into native JS.
 After making sure [NodeJS](https://nodejs.org "NodeJS") is installed, run `$ npm install -g js-class-namespace`.
 
 ## Building Classes
+### With the CLI
 Run `$ js-class --source MyClass.class.js --output MyClass.js`
+
+### In-code
+
+    const JSClass = require("js-class-namespace");
+    const fs = require("fs");
+
+	// load MyClass.class.js
+	let myClassFile = fs.readFileSync("MyClass.class.js");
+	let transpiled = JSClass.transpile(myClassFile);
+
+	// save to MyClass.js
+	fs.writeFileSync("MyClass.js", transpiled);
 
 ## Using Classes
 Once built, classes are imported into a website using `include.js`:
