@@ -11,7 +11,7 @@ Run `$ js-class --source MyClass.class.js --output MyClass.js`
 
 ### In-code
 
-```
+```js
 const JSClass = require("js-class-namespace");
 const fs = require("fs");
 
@@ -26,7 +26,7 @@ fs.writeFileSync("MyClass.js", transpiled);
 ## Using Classes
 Once built, classes are imported into a website using `include.js`:
 
-```
+```js
 <script src="https://cdn.rawgit.com/Zoweb/js-class/ba16dfe3/browser/include.js"></script>
 <script>
 include("My.Library.Extensions");
@@ -40,7 +40,7 @@ includes.onload = () => {
 ## Writing Classes
 The class format is similar to C# and Java:
 
-```
+```js
 // Define the namespace
 namespace My.Namespace {
     // Import other classes
@@ -59,7 +59,7 @@ namespace My.Namespace {
 
 Classes can also become extensions for other classes:
 
-```
+```js
 namespace My.Library {
     class Extensions {
         static _EXTENSION() {
