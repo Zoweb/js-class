@@ -9,7 +9,7 @@
   },
   "preferGlobal": true,
   "bin": {
-    "js-class": "bin/js-class.js"
+    "js-class": "bin/bin.js"
   },
   "dependencies": {
     "cli": "^1.0.1",
