@@ -30,9 +30,14 @@ Once built, classes are imported into a website using `include.js`:
 <script src="https://cdn.rawgit.com/Zoweb/js-class/ba16dfe3/browser/include.js"></script>
 <script>
 include("My.Library.Extensions");
+include("My.Namespace.MyClass");
 
 includes.onload = () => {
+    // CLASS EXTENSION
     console.log([1,2,3,4,5].randomElement());
+
+    // CLASS INSTANCE
+    console.log(new My.Namespace.MyClass().foo);
 };
 </script>
 ```
@@ -51,7 +56,7 @@ namespace My.Namespace {
     class MyClass {
         // ... like JS classes
         constructor() {
-            return "foo";
+            this.foo = "bar";
         }
     }
 }
