@@ -208,7 +208,7 @@ let transpile = function(source) {
     everything.forEach(el => {
         let currentOut = "";
 
-        if (el.value === "in") currentOut += " ";
+        if (el.value === "in" || el.value === "instanceof") currentOut += " ";
 
         currentOut += el.value;
 
