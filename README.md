@@ -27,7 +27,7 @@ fs.writeFileSync("MyClass.js", transpiled);
 Once built, classes are imported into a website using `include.js`:
 
 ```html
-<script src="https://cdn.rawgit.com/Zoweb/js-class/ba16dfe3/browser/include.js"></script>
+<script src="https://cdn.rawgit.com/Zoweb/js-class/593755c7/browser/include.js"></script>
 <script>
 include("My.Library.Extensions");
 include("My.Namespace.MyClass");
