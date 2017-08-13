@@ -1,9 +1,10 @@
 # JS Class
 
-This tool allows you to transpile namespace'd JavaScript files into native JS.
+This tool allows you to transpile namespace'd JavaScript files into native JS (ES6).
 
 ## Installing
 After making sure [NodeJS](https://nodejs.org "NodeJS") is installed, run `$ npm install -g js-class-namespace`.
+Check the installation with `$ js-class --version`
 
 ## Building Classes
 ### With the CLI

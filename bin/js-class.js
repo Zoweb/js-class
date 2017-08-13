@@ -6,11 +6,18 @@ module.exports = () => {
     const generator = require("../lib/generator");
 
     const classTranspiler = require("../");
+    const jsClassPackage = require("../package.json");
 
     const options = cli.parse({
         source: ["s", "Source class file path", "file", false],
-        output: ["o", "Output file path", "file", false]
+        output: ["o", "Output file path", "file", false],
+        version: ["v", "Get current version"]
     });
+
+    if (options.version) {
+        console.log(`${jsClassPackage.name} v${jsClassPackage.version} by ${jsClassPackage.author}`);
+        return;
+    }
 
     if (options.source === false) cli.fatal("Invalid or no source file.");
     if (options.output === false) cli.fatal("Invalid or no output file.");
