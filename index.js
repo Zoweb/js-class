@@ -138,11 +138,17 @@ let transpile = function(source) {
 
             let method = namespacedClass[methodName];
 
-            method.markAsExtension = type => {
+            method.markAsExtensionFor = type => {
                 type.prototype[methodName] = function(...args) {
                     return method(this, ...args);
                 };
             };
+
+            /**
+             * @deprecated
+             * @type {(function(*))|*}
+             */
+            method.markAsExtension = method.markAsExtensionFor;
         });
 
         namespacedClass._EXTENSION();
@@ -153,6 +159,7 @@ let transpile = function(source) {
             let method = namespacedClass[methodName];
 
             delete method.markAsExtension;
+            delete method.markAsExtensionFor;
         });
     }
 
@@ -182,7 +189,8 @@ let transpile = function(source) {
         });
     });
 
-    headerTokens.pop();
+    if (imports.length > 0) headerTokens.pop();
+
     headerTokens.push({
         type: "Punctuator",
         value: "]"
@@ -197,10 +205,15 @@ let transpile = function(source) {
     let everything = headerTokens.concat(sourceTokens);
 
     let output = [];
-    everything.forEach((el, i) => {
-        let currentOut = el.value;
+    everything.forEach(el => {
+        let currentOut = "";
 
-        if (el.type === "Keyword") currentOut += " ";
+        if (el.value === "in") currentOut += " ";
+
+        currentOut += el.value;
+
+        if (el.type === "Keyword" && !(el.value === "this" || el.value === "function")) currentOut += " ";
+        if (el.value === "get" || el.value === "set" || el.value === "static") currentOut += " ";
 
         output.push(currentOut);
     });

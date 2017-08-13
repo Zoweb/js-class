@@ -21,7 +21,7 @@ module.exports = () => {
         cli.debug("Reading source file...");
         const source = yield readFile(options.source, cli.progress).then(cont());
 
-        const result = classTranspiler.transpile(source);
+        let result = classTranspiler.transpile(source);
 
         cli.debug("Uglifying code...");
 

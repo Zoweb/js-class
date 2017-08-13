@@ -6,6 +6,7 @@
  */
 
 (function() {
+    "use strict";
     let global;
     if (window) global = window;
     else if (module && module.exports) global = module.exports;
@@ -28,7 +29,9 @@
     }
 
     global.include = (function() {
+        "use strict";
         function include(src) {
+            "use strict";
             if (included.indexOf(src) >= 0) return;
 
             loadingQueue++;
@@ -40,6 +43,7 @@
             console.debug(`${new Error().stack.split("@")[2].replace(/\n/, "").split(":")[1].substr(2)} trigged including of ${src} from "${source}"`);
 
             script.onload = () => {
+                "use strict";
                 script.remove();
                 loadingQueue--;
 

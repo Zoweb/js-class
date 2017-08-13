@@ -16,7 +16,7 @@ const JSClass = require("js-class-namespace");
 const fs = require("fs");
 
 // load MyClass.class.js
-let myClassFile = fs.readFileSync("MyClass.class.js");
+let myClassFile = fs.readFileSync("MyClass.class.js").toString();
 let transpiled = JSClass.transpile(myClassFile);
 
 // save to MyClass.js
@@ -69,13 +69,44 @@ namespace My.Library {
     class Extensions {
         static _EXTENSION() {
             // Here we can mark static members as extensions:
-            Extensions.randomElement.markAsExtension(Array);
+            Extensions.randomElement.markAsExtensionFor(Array);
             // would mean that we can do [].randomElement();
         }
 
         static randomElement() {
             // this is defined, as we are in an extension
             return this[Math.floor(Math.random() * this.length)];
+        }
+    }
+}
+```
+
+Classes can also be both:
+
+```js
+namespace My.Namespace {
+    import Another.Namespace.Class;
+    import Or.Library;
+
+    class MyClass {
+        static _EXTENSION() {
+            MyClass.convertToMyClass.markAsExtensionFor(Object);
+        }
+
+        static convertToMyClass() {
+            let class = new My.Namespace.MyClass();
+
+            for (let key in this) {
+                if (!this.hasOwnProperty(key)) continue;
+
+                class[key] = this[key];
+            }
+
+            return class;
+        }
+
+        constructor() {
+            this.foo = "bar";
         }
     }
 }

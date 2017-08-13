@@ -23,11 +23,17 @@
 
             let method = namespacedClass[methodName];
 
-            method.markAsExtension = type => {
+            method.markAsExtensionFor = type => {
                 type.prototype[methodName] = function(...args) {
                     return method(this, ...args);
                 };
             };
+
+            /**
+             * @deprecated
+             * @type {(function(*))|*}
+             */
+            method.markAsExtension = method.markAsExtensionFor;
         });
 
         namespacedClass._EXTENSION();
@@ -38,6 +44,7 @@
             let method = namespacedClass[methodName];
 
             delete method.markAsExtension;
+            delete method.markAsExtensionFor;
         });
     }
 

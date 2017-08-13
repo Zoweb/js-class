@@ -12,6 +12,7 @@
     "js-class": "bin/bin.js"
   },
   "dependencies": {
+    "babel-core": "^6.25.0",
     "cli": "^1.0.1",
     "esprima": "^4.0.0",
     "uglify-es": "^3.0.27"
