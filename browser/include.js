@@ -40,7 +40,9 @@
             let script = document.createElement("script");
             let source = "src/" + src.split(".").join("/") + ".js";
 
-            console.debug(`${new Error().stack.split("@")[2].replace(/\n/, "").split(":")[1].substr(2)} trigged including of ${src} from "${source}"`);
+            let error = new Error().stack.split("@");
+            if (error.length >= 3) console.debug(`${error[2].replace(/\n/, "").split(":")[1].substr(2)} triggered including of ${src} from "${source}"`);
+            else console.log(`Including ${src} from ${source} %cuse Firefox for more detail`, "font-weight: bold; color: red; background: #fff0f0; padding: 2px; border: 1px solid #ffd7d7");
 
             script.onload = () => {
                 "use strict";
